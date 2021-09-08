@@ -18,5 +18,16 @@ namespace RuleEngine.Test.Helpers
         {
             return new AfterPaymentExecutionRequest { ProductName = "abcProduct" };
         }
+
+        public static AfterPaymentExecutionRequest ValidRequestForBookPurchase()
+        {
+            return new AfterPaymentExecutionRequest { 
+                ProductName = "book", 
+                ContactNo ="123456", 
+                CustomerEmail ="abc@gmail.com",
+                PaymentDateTime = DateTime.Now, 
+                ShippingAddress = "5 abc vej, 2700 Copenhagen" 
+            };
+        }
     }
 }

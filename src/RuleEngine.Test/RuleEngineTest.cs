@@ -24,10 +24,27 @@ namespace RuleEngine.Test
 
         [Test]
         [TestCase(1, "EmptyRequest", "Request object is null or required parameter meesing.")]
+        [TestCase(2, "InvalidProduct", "Invalid product name! Attached rule is missing.")]
         public async Task InvalidInput(int caseId, string caseName, string expectedMsg)
         {
             var ex = Assert.ThrowsAsync<ArgumentException>(async () => await _controller.PostPaymentWorkExecutions(GetRequestObject(caseName)));
-            Assert.That(ex.Message, Is.EqualTo(expectedMsg));
+            Assert.That(ex.Message, caseId == 1 ? Is.EqualTo(expectedMsg) : caseId == 2 ? Is.EqualTo(expectedMsg) : Is.EqualTo("not expected outcome"));
+        }
+
+        [Test]
+        [TestCase(1, "GetSlipForBookPurchase")]
+        public async Task GetSlipForBookPurchase(int caseId, string caseName)
+        {
+            var reqObj = GetRequestObject(caseName);
+            var response = await _controller.PostPaymentWorkExecutions(reqObj);
+            Assert.AreEqual(response?.Value.Count, 2);
+
+            var customerCopy = response.Value[0];
+
+            Assert.AreEqual(customerCopy.Address, reqObj.ShippingAddress);
+            Assert.AreEqual(customerCopy.ContactNumber, reqObj.ContactNo);
+            Assert.AreEqual(customerCopy.CustomerName, reqObj.CustomerName);
+            Assert.AreEqual(customerCopy.IsCustomerCopy, true);
         }
 
         private AfterPaymentExecutionRequest GetRequestObject(string caseName)
@@ -35,6 +52,8 @@ namespace RuleEngine.Test
             return caseName switch
             {
                 "EmptyRequest" => RequestBuilder.InvalidRequestEmptyObject(),
+                "InvalidProduct" => RequestBuilder.InvalidRequestWrongProductName(),
+                "GetSlipForBookPurchase" => RequestBuilder.ValidRequestForBookPurchase(),
                 _ => null,
             };
         }
