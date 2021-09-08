@@ -1,0 +1,32 @@
+name: Build And Deploy
+env:
+  REPO_NAME_PRE_EXT: chakrabortyanirban/ruleengine
+  REPO_NAME: ruleengine
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.*
+
+      - name: caching nugets
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('src/**/**.csproj') }}
+
+      - name: build
+        run: dotnet build -c Release ./src/RuleEngine.sln
+
+      - name: test
+        run: dotnet test --no-build -c Release ./src/RuleEngine.sln

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RuleEngine.Core\RuleEngine.Core.csproj" />
+    <ProjectReference Include="..\RuleEngine.Domain\RuleEngine.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
