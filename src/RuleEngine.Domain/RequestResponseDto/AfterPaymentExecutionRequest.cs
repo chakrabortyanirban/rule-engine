@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using RuleEngine.Domain.Dtos;
+using RuleEngine.Domain.Models;
 
-namespace RuleEngine.Domain.RequestResponse
+namespace RuleEngine.Domain.RequestResponseDto
 {
-    public class AfterPaymentExecutionRequest : CustomerDetails
+    public class AfterPaymentExecutionRequest
     {
         [JsonProperty("productName")]
         public string ProductName { get; set; }
+
+        [JsonProperty("customerId")]
+        public int CustomerId { get; set; }
 
         [JsonProperty("linksForNonPhysicalProducts")]
         public string LinksForNonPhysicalProducts { get; set; } = string.Empty;

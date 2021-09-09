@@ -10,4 +10,16 @@
     <ProjectReference Include="..\RuleEngine.Logic\RuleEngine.Logic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="SlipTemplates\Membership.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SlipTemplates\PhysicalProduct.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SlipTemplates\Video.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,4 @@
-﻿using RuleEngine.Domain.RequestResponse;
+﻿using RuleEngine.Domain.RequestResponseDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,15 +19,14 @@ namespace RuleEngine.Test.Helpers
             return new AfterPaymentExecutionRequest { ProductName = "abcProduct" };
         }
 
-        public static AfterPaymentExecutionRequest ValidRequestForBookPurchase()
+        public static AfterPaymentExecutionRequest ValidRequestForBookPurchase(int customerId , string product)
         {
-            return new AfterPaymentExecutionRequest { 
-                ProductName = "book", 
-                ContactNo ="123456", 
-                CustomerEmail ="abc@gmail.com",
-                PaymentDateTime = DateTime.Now, 
-                ShippingAddress = "5 abc vej, 2700 Copenhagen" 
-            };
-        }
+            return new AfterPaymentExecutionRequest
+            {
+                ProductName = product,
+                CustomerId = customerId,
+                LinksForNonPhysicalProducts = null
+        };
     }
+}
 }

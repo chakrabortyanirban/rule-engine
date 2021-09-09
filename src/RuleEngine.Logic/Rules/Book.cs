@@ -1,34 +1,36 @@
 ﻿using RuleEngine.Domain;
-using RuleEngine.Domain.Dtos;
-using RuleEngine.Domain;
-using RuleEngine.Domain.RequestResponse;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using RuleEngine.Logic.RuleActions;
+using RuleEngine.Domain.RequestResponseDto;
+using Microsoft.AspNetCore.Hosting;
 
 namespace RuleEngine.Logic.Rules
 {
-    public class Book : RuleContext<List<PackingSlip>>, IPackingSlip
+    public class Book : RuleContext, IPackingSlip
     {
         private const bool DUPLICATE_SLIP_REQUIRED = true;
         private readonly AfterPaymentExecutionRequest _request;
-        private readonly PackingSlipManager _packingSlipManager;
+        private readonly PhysicalProductPackingSlipManager _packingSlipManager;
 
-        public Book(AfterPaymentExecutionRequest request)
+        public Book(AfterPaymentExecutionRequest request, IWebHostEnvironment webHostEnvironment)
         {
             _request = request;
-            _packingSlipManager = new PackingSlipManager(request, DUPLICATE_SLIP_REQUIRED);
+            _packingSlipManager = new PhysicalProductPackingSlipManager(request, PackingSlipTemplate, DUPLICATE_SLIP_REQUIRED, webHostEnvironment);
         }
 
-        public override async Task<List<PackingSlip>> ExecuteAction()
+        public string PackingSlipTemplate { get { return "SlipTemplates/PhysicalProduct.html"; } }
+
+        public override async Task<AfterPaymentExecutionResponse> ExecuteAction()
         {
-            return await GeneratePackaingSlip(DUPLICATE_SLIP_REQUIRED);
+            var response = new AfterPaymentExecutionResponse
+            {
+                SlipHtml = await GeneratePackaingSlip(DUPLICATE_SLIP_REQUIRED)
+            };
+            return response;
         }
 
-        public async Task<List<PackingSlip>> GeneratePackaingSlip(bool requiredDuplicate)
+        public async Task<List<string>> GeneratePackaingSlip(bool requiredDuplicate)
         {
             return await _packingSlipManager.Create();
         }

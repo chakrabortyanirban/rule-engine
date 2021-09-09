@@ -7,6 +7,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="appsettings.Test.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="appsettings.Test.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Moq" Version="4.16.1" />
 		<PackageReference Include="NUnit" Version="3.12.0" />
 		<PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
@@ -15,6 +27,15 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\RuleEngine\RuleEngine.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="CaseResponses\1\ExpectedResponse.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="CaseResponses\2\ExpectedResponse.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>
