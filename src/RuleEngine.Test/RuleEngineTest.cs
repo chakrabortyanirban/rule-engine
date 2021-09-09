@@ -54,7 +54,7 @@ namespace RuleEngine.Test
             var response = await _controller.PostPaymentWorkExecutions(reqObj);
             Assert.AreEqual(response?.Value.SlipHtml.Count, 2);
 
-            var finalOutput = Newtonsoft.Json.JsonConvert.SerializeObject(response.Value);
+            var finalOutput = Newtonsoft.Json.JsonConvert.SerializeObject(response.Value, Newtonsoft.Json.Formatting.Indented);
             ContentAssert.JsonAreEquivalents(expectedOutput, finalOutput);
         }
 
