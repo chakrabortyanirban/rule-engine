@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RuleEngine.Logic.DbContext
 {
-    internal class CustomersCollection
+    public class CustomersCollection
     {
         private readonly List<CustomerDetails> _customers;
 

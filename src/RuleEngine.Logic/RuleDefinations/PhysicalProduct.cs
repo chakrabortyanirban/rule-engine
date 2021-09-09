@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using RuleEngine.Domain;
+using RuleEngine.Domain.Models;
 using RuleEngine.Domain.RequestResponseDto;
 using RuleEngine.Logic.RuleActions;
 using System;
@@ -12,9 +13,9 @@ namespace RuleEngine.Logic.RuleDefinations
     {
         private readonly PhysicalProductRuleManager _physicalProductRuleManager;
 
-        public PhysicalProduct(AfterPaymentExecutionRequest request, IWebHostEnvironment webHostEnvironment)
+        public PhysicalProduct(AfterPaymentExecutionRequest request, AllProducts products, IWebHostEnvironment webHostEnvironment)
         {
-            _physicalProductRuleManager = new PhysicalProductRuleManager(request, PackingSlipTemplate, webHostEnvironment);
+            _physicalProductRuleManager = new PhysicalProductRuleManager(request, products, PackingSlipTemplate, webHostEnvironment);
         }
 
         public string PackingSlipTemplate { get { return "SlipTemplates/PhysicalProduct.html"; } }

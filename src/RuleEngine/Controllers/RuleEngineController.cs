@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using RuleEngine.Domain.Models;
 using RuleEngine.Domain.RequestResponseDto;
 using RuleEngine.Logic.DbContext;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace RuleEngine.Controllers
 {
@@ -15,11 +18,13 @@ namespace RuleEngine.Controllers
     {
         private readonly ILogger<RuleEngineController> _logger;
         private readonly IWebHostEnvironment _environment;
+        private readonly AllProducts _allProducts;
 
-        public RuleEngineController(ILogger<RuleEngineController> logger, IWebHostEnvironment environment)
+        public RuleEngineController(ILogger<RuleEngineController> logger, IWebHostEnvironment environment, IOptions<AllProducts> allProducts)
         {
             _environment = environment;
             _logger = logger;
+            _allProducts = new AllProducts { Products = allProducts.Value.Products.Where(p => p.Active).ToList() };
         }
 
         [HttpPost]
@@ -30,18 +35,17 @@ namespace RuleEngine.Controllers
             if (string.IsNullOrWhiteSpace(request?.ProductName) || request.CustomerId <= 0)
                 throw new ArgumentException("Request object is null or required parameter meesing.");
 
-            // Find applicable rule 
-            var ruleCollection = new RuleCollection();
-            var ruleEntry = await ruleCollection.GetRule(request.ProductName);
+            // Find actual product with rule
+            var product = _allProducts.GetProduct(request.ProductName);
 
-            if (string.IsNullOrWhiteSpace(ruleEntry?.Product))
+            if (string.IsNullOrWhiteSpace(product?.ProductName))
                 throw new ArgumentException("Invalid product name! Attached rule is missing.");
 
             // Get Rule instance
-            var assembly = Assembly.GetAssembly(ruleCollection.GetType());
-            var ruleType = assembly?.GetType(assembly.GetName().Name + ".RuleDefinations." + ruleEntry.ProductType.ToString());
-            var ruleConstructor = ruleType.GetConstructor(new Type[] { typeof(AfterPaymentExecutionRequest), typeof(IWebHostEnvironment) });
-            var ruleObject = ruleConstructor.Invoke(new object[] { request, _environment });
+            var assembly = Assembly.GetAssembly(typeof(CustomersCollection));
+            var ruleType = assembly?.GetType("RuleEngine.Logic.RuleDefinations." + product.ProductType.ToString());
+            var ruleConstructor = ruleType.GetConstructor(new Type[] { typeof(AfterPaymentExecutionRequest), typeof(AllProducts), typeof(IWebHostEnvironment) });
+            var ruleObject = ruleConstructor.Invoke(new object[] { request, _allProducts, _environment });
 
             // Get Execution Method 
             MethodInfo method

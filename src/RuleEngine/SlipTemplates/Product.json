@@ -1,0 +1,65 @@
+{
+  "products": [
+    {
+      "productId": 1,
+      "productName": "The art of Reading Minds",
+      "productType": "PhysicalProduct",
+      "productCategory": "book",
+      "price": 126,
+      "active": true,
+      "agentCommissionPercentage": 10,
+      "guideLink": ""
+    },
+    {
+      "productId": 2,
+      "productName": "The Was of the poor",
+      "productType": "PhysicalProduct",
+      "productCategory": "book",
+      "price": 185,
+      "active": true,
+      "agentCommissionPercentage": 15,
+      "guideLink": ""
+    },
+    {
+      "productId": 3,
+      "productName": "Membership",
+      "productType": "MembershipProduct",
+      "productCategory": "Membership",
+      "price": 150,
+      "active": true,
+      "agentCommissionPercentage": 0,
+      "guideLink": ""
+    },
+    {
+      "productId": 4,
+      "productName": "Upgrade",
+      "productType": "MembershipProduct",
+      "productCategory": "Membership",
+      "price": 80,
+      "active": true,
+      "agentCommissionPercentage": 0,
+      "guideLink": ""
+    },
+    {
+      "productId": 5,
+      "productName": "Learning to Ski",
+      "productType": "VideoProduct",
+      "productCategory": "Video",
+      "price": 50,
+      "active": true,
+      "agentCommissionPercentage": 0,
+      "guideLink": "https://www.youtube.com/watch?v=RMb0Zpvri6k"
+    },
+    {
+      "productId": 6,
+      "productName": "AspnetCoretutorial",
+      "productType": "VideoProduct",
+      "productCategory": "Video",
+      "price": 5,
+      "active": true,
+      "agentCommissionPercentage": 0,
+      "guideLink": ""
+    }
+  ]
+
+}

@@ -7,6 +7,9 @@ using RuleEngine.Controllers;
 using RuleEngine.Domain.RequestResponseDto;
 using RuleEngine.Test.Helpers;
 using Microsoft.AspNetCore.Hosting;
+using Newtonsoft.Json;
+using RuleEngine.Domain.Models;
+using Microsoft.Extensions.Options;
 
 namespace RuleEngine.Test
 {
@@ -16,23 +19,28 @@ namespace RuleEngine.Test
         private Mock<ILogger<RuleEngineController>> _logger;
         private RuleEngineController _controller;
         private Mock<IWebHostEnvironment> _environment;
+        private Mock<IOptions<AllProducts>> _allProducts;
         private readonly string _testDirectoryPath;
-
+        private readonly string _contentRootPath;
 
         public RuleEngineTest()
         {
             _testDirectoryPath = TestContext.CurrentContext.TestDirectory;
+            _contentRootPath = _testDirectoryPath.Replace("RuleEngine.Test", "RuleEngine");
         }
 
         [SetUp]
         public void Initialize()
         {
             _logger = new Mock<ILogger<RuleEngineController>>();
-
+            _allProducts = new Mock<IOptions<AllProducts>>();
             _environment = new Mock<IWebHostEnvironment>();
-            _environment.SetupGet(x => x.ContentRootPath).Returns(_testDirectoryPath.Replace("RuleEngine.Test", "RuleEngine"));
+            _environment.SetupGet(x => x.ContentRootPath).Returns(_contentRootPath);
 
-            _controller = new RuleEngineController(_logger.Object, _environment.Object);
+            var productList = new ResponseReaderHelper(_contentRootPath +"/SlipTemplates/Product.json").GetMockResponseFromJsonFile();
+            _allProducts.SetupGet(x => x.Value).Returns(JsonConvert.DeserializeObject<AllProducts>(productList));
+
+            _controller = new RuleEngineController(_logger.Object, _environment.Object, _allProducts.Object);
         }
 
         [Test]

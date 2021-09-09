@@ -12,6 +12,7 @@ namespace RuleEngine.Logic.RuleActions
         private readonly AfterPaymentExecutionRequest _request;
         private readonly CustomersCollection _customersCollection;
         private readonly bool _isUpgradeRequest;
+        private readonly AllProducts _products;
 
 
         private bool isValidRequest;
@@ -19,9 +20,10 @@ namespace RuleEngine.Logic.RuleActions
         private bool membershipUpgraded;
         private CustomerDetails customerDetails;
 
-        public MembershipSlipManager(AfterPaymentExecutionRequest request, bool isUpgradeRequest)
+        public MembershipSlipManager(AfterPaymentExecutionRequest request, AllProducts products, bool isUpgradeRequest)
         {
             _request = request;
+            _products = products;
             _isUpgradeRequest = isUpgradeRequest;
             _customersCollection = new CustomersCollection();
         }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using RuleEngine.Domain.Models;
 using RuleEngine.Domain.RequestResponseDto;
-using RuleEngine.Logic.DbContext;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,11 +8,13 @@ namespace RuleEngine.Logic.RuleActions
 {
     internal class PhysicalProductRuleManager
     {
+        private readonly AllProducts _products;
         private readonly AfterPaymentExecutionRequest _request;
         private readonly PhysicalProductPackingSlipManager _slipManager;
 
-        public PhysicalProductRuleManager(AfterPaymentExecutionRequest request, string packingSlipPath, IWebHostEnvironment environment)
+        public PhysicalProductRuleManager(AfterPaymentExecutionRequest request, AllProducts products, string packingSlipPath, IWebHostEnvironment environment)
         {
+            _products = products;
             _request = request;
             _slipManager = new PhysicalProductPackingSlipManager(request, packingSlipPath, environment);
         }
@@ -23,13 +25,16 @@ namespace RuleEngine.Logic.RuleActions
         /// <returns></returns>
         public async Task<bool> ExecuteCommitionPayment()
         {
-            var ruleColection = await new RuleCollection().GetRule(_request.ProductName);
-            if (ruleColection == null || ruleColection.Price <= 0)
-                return false;
+            return await Task.Run(() =>
+            {
+                var product = _products.GetProduct(_request.ProductName);
+                if (product == null || product.Price <= 0)
+                    return false;
 
-            var commitionAmount = ruleColection.Price * 0.1;
+                var commitionAmount = product.Price * (product.AgentCommissionPercentage / 100);
 
-            return commitionAmount > 0;
+                return commitionAmount > 0;
+            });
         }
 
         public async Task<List<string>> GeneratePackingSlips()
