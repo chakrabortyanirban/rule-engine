@@ -27,7 +27,9 @@ namespace RuleEngine.Logic.DbContext
                     BillingAddress = "Billing address " + i,
                     ContactNo = i + "99999",
                     CustomerEmail = i + "@gmail.com",
-                    CustomerName = "Customer " + i
+                    CustomerName = "Customer " + i,
+                    IsActiveMember= false,
+                    MembershipSlot = 0
                 });
             }
 

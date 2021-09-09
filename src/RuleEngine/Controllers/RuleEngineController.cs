@@ -32,7 +32,7 @@ namespace RuleEngine.Controllers
         public async Task<ActionResult<AfterPaymentExecutionResponse>> PostPaymentWorkExecutions(AfterPaymentExecutionRequest request)
         {
             // Request validation
-            if (string.IsNullOrWhiteSpace(request?.ProductName))
+            if (string.IsNullOrWhiteSpace(request?.ProductName) || request.CustomerId <= 0)
                 throw new ArgumentException("Request object is null or required parameter meesing.");
 
             // Find applicable rule 

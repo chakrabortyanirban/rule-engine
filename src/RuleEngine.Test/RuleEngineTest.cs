@@ -17,7 +17,7 @@ namespace RuleEngine.Test
         private RuleEngineController _controller;
         private Mock<IWebHostEnvironment> _environment;
         private readonly string _testDirectoryPath;
-        
+
 
         public RuleEngineTest()
         {
@@ -45,8 +45,8 @@ namespace RuleEngine.Test
         }
 
         [Test]
-        [TestCase(1, "GetSlipForBookPurchase", 1, "book")]
-        [TestCase(2, "GetSlipForBookPurchase", 2, "book")]
+        [TestCase(3, "GetSlipForBookPurchase", 1, "book")]
+        [TestCase(4, "GetSlipForBookPurchase", 2, "book")]
         public async Task GetSlipForBookPurchase(int caseId, string caseName, int customerId, string product)
         {
             var expectedOutput = new ResponseReaderHelper(_testDirectoryPath + "/CaseResponses/" + caseId + "/ExpectedResponse.json").GetMockResponseFromJsonFile();
@@ -58,13 +58,41 @@ namespace RuleEngine.Test
             ContentAssert.JsonAreEquivalents(expectedOutput, finalOutput);
         }
 
+        [Test]
+        [TestCase(5, "GetSlipForMembershipPurchase", 1, "Membership")]
+        public async Task GetSlipForMembershipPurchase(int caseId, string caseName, int customerId, string product)
+        {
+            var expectedOutput = new ResponseReaderHelper(_testDirectoryPath + "/CaseResponses/" + caseId + "/ExpectedResponse.json").GetMockResponseFromJsonFile();
+            var reqObj = GetRequestObject(caseName, customerId, product);
+            var response = await _controller.PostPaymentWorkExecutions(reqObj);
+            Assert.AreEqual(response?.Value.SlipHtml.Count, 1);
+
+            var finalOutput = Newtonsoft.Json.JsonConvert.SerializeObject(response.Value);
+            ContentAssert.JsonAreEquivalents(expectedOutput, finalOutput);
+        }
+
+        [Test]
+        [TestCase(6, "GetSlipForMembershipUpgradePurchase", 2, "Upgrade")]
+        public async Task GetSlipForMembershipUpgradePurchase(int caseId, string caseName, int customerId, string product)
+        {
+            var expectedOutput = new ResponseReaderHelper(_testDirectoryPath + "/CaseResponses/" + caseId + "/ExpectedResponse.json").GetMockResponseFromJsonFile();
+            var reqObj = GetRequestObject(caseName, customerId, product);
+            var response = await _controller.PostPaymentWorkExecutions(reqObj);
+            Assert.AreEqual(response?.Value.SlipHtml.Count, 1);
+
+            var finalOutput = Newtonsoft.Json.JsonConvert.SerializeObject(response.Value);
+            ContentAssert.JsonAreEquivalents(expectedOutput, finalOutput);
+        }
+
         private AfterPaymentExecutionRequest GetRequestObject(string caseName, int customerId, string product)
         {
             return caseName switch
             {
                 "EmptyRequest" => RequestBuilder.InvalidRequestEmptyObject(),
                 "InvalidProduct" => RequestBuilder.InvalidRequestWrongProductName(),
-                "GetSlipForBookPurchase" => RequestBuilder.ValidRequestForBookPurchase(customerId, product),
+                "GetSlipForBookPurchase" => RequestBuilder.ValidRequestForProductPurchase(customerId, product),
+                "GetSlipForMembershipPurchase" => RequestBuilder.ValidRequestForProductPurchase(customerId, product),
+                "GetSlipForMembershipUpgradePurchase" => RequestBuilder.ValidRequestForProductPurchase(customerId, product),
                 _ => null,
             };
         }

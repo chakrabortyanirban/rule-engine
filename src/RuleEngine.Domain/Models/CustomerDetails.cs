@@ -1,11 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RuleEngine.Domain.Models
+﻿namespace RuleEngine.Domain.Models
 {
     public class CustomerDetails
     {
@@ -20,5 +13,9 @@ namespace RuleEngine.Domain.Models
         public string CustomerEmail { get; set; }
         
         public string ContactNo { get; set; }
+
+        public bool IsActiveMember { get; set; }
+
+        public int MembershipSlot { get; set; } // 0 = Trial 1= basic 2 Premimum 3 = enterprise
     }
 }

@@ -20,8 +20,8 @@ namespace RuleEngine.Logic.DbContext
             Rules = new List<RuleEntry>()
             {
                 new RuleEntry{RuleName="1", AppliedProductFor="Book", Operations="Book" , Active = true },
-                new RuleEntry{RuleName="2", AppliedProductFor="NewMembership", Operations="Membership", Active = true },
-                new RuleEntry{RuleName="3", AppliedProductFor="UpgradeMembership", Operations="Upgrade", Active = false },
+                new RuleEntry{RuleName="2", AppliedProductFor="Membership", Operations="Membership", Active = true },
+                new RuleEntry{RuleName="3", AppliedProductFor="Upgrade", Operations="Upgrade", Active = true },
                 new RuleEntry{RuleName="4", AppliedProductFor="Video", Operations="Video", Active = false },
             };
         }

@@ -1,9 +1,4 @@
 ﻿using RuleEngine.Domain.RequestResponseDto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RuleEngine.Test.Helpers
 {
@@ -16,17 +11,17 @@ namespace RuleEngine.Test.Helpers
 
         public static AfterPaymentExecutionRequest InvalidRequestWrongProductName()
         {
-            return new AfterPaymentExecutionRequest { ProductName = "abcProduct" };
+            return new AfterPaymentExecutionRequest { ProductName = "abcProduct", CustomerId = 2 };
         }
 
-        public static AfterPaymentExecutionRequest ValidRequestForBookPurchase(int customerId , string product)
+        public static AfterPaymentExecutionRequest ValidRequestForProductPurchase(int customerId, string product)
         {
             return new AfterPaymentExecutionRequest
             {
                 ProductName = product,
                 CustomerId = customerId,
                 LinksForNonPhysicalProducts = null
-        };
+            };
+        }
     }
-}
 }

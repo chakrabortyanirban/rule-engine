@@ -1,25 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\RuleEngine.Core\RuleEngine.Core.csproj" />
-    <ProjectReference Include="..\RuleEngine.Domain\RuleEngine.Domain.csproj" />
-    <ProjectReference Include="..\RuleEngine.Logic\RuleEngine.Logic.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\RuleEngine.Domain\RuleEngine.Domain.csproj" />
+		<ProjectReference Include="..\RuleEngine.Logic\RuleEngine.Logic.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="SlipTemplates\Membership.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SlipTemplates\PhysicalProduct.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SlipTemplates\Video.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="SlipTemplates\Membership.html">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="SlipTemplates\PhysicalProduct.html">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="SlipTemplates\Video.html">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>

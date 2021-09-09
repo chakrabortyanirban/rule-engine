@@ -10,12 +10,10 @@ namespace RuleEngine.Logic.Rules
     public class Book : RuleContext, IPackingSlip
     {
         private const bool DUPLICATE_SLIP_REQUIRED = true;
-        private readonly AfterPaymentExecutionRequest _request;
         private readonly PhysicalProductPackingSlipManager _packingSlipManager;
 
         public Book(AfterPaymentExecutionRequest request, IWebHostEnvironment webHostEnvironment)
         {
-            _request = request;
             _packingSlipManager = new PhysicalProductPackingSlipManager(request, PackingSlipTemplate, DUPLICATE_SLIP_REQUIRED, webHostEnvironment);
         }
 

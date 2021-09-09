@@ -30,10 +30,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="CaseResponses\1\ExpectedResponse.json">
+	  <None Update="CaseResponses\3\ExpectedResponse.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="CaseResponses\2\ExpectedResponse.json">
+	  <None Update="CaseResponses\4\ExpectedResponse.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="CaseResponses\5\ExpectedResponse.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="CaseResponses\6\ExpectedResponse.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

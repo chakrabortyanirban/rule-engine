@@ -4,8 +4,14 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.2.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.2.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.2.1" />
+	</ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\RuleEngine.Core\RuleEngine.Core.csproj" />
     <ProjectReference Include="..\RuleEngine.Domain\RuleEngine.Domain.csproj" />
   </ItemGroup>
 
