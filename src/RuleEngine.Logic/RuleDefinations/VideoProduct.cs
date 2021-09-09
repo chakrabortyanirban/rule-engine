@@ -18,7 +18,7 @@ namespace RuleEngine.Logic.RuleDefinations
             _videoSlipmanager = new VideoSlipmanager(request, products, PackingSlipTemplate, webHostEnvironment);
         }
 
-        public string PackingSlipTemplate { get { return "SlipTemplates/video.html"; } }
+        public string PackingSlipTemplate { get { return "SlipTemplates/Video.html"; } }
 
         public override async Task<AfterPaymentExecutionResponse> ExecuteAction()
         {
