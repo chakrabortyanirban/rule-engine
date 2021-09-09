@@ -1,12 +1,12 @@
 ﻿
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RuleEngine.Domain.Models;
 using Microsoft.AspNetCore.Hosting;
 using RuleEngine.Domain.RequestResponseDto;
 using RuleEngine.Logic.DbContext;
-using System.IO;
 
 namespace RuleEngine.Logic.RuleActions
 {

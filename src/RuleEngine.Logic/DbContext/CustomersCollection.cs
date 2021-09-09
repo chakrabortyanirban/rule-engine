@@ -1,9 +1,6 @@
-﻿using RuleEngine.Domain.Models;
-using System;
+﻿using System.Linq;
+using RuleEngine.Domain.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RuleEngine.Logic.DbContext
 {

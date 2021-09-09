@@ -3,7 +3,6 @@ using RuleEngine.Domain;
 using RuleEngine.Domain.Models;
 using RuleEngine.Domain.RequestResponseDto;
 using RuleEngine.Logic.RuleActions;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

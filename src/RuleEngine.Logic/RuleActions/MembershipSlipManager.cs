@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System.Threading.Tasks;
 using RuleEngine.Domain.Models;
-using RuleEngine.Domain.RequestResponseDto;
 using RuleEngine.Logic.DbContext;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using RuleEngine.Domain.RequestResponseDto;
 
 namespace RuleEngine.Logic.RuleActions
 {
@@ -12,7 +11,6 @@ namespace RuleEngine.Logic.RuleActions
         private readonly AfterPaymentExecutionRequest _request;
         private readonly CustomersCollection _customersCollection;
         private readonly bool _isUpgradeRequest;
-        private readonly AllProducts _products;
 
 
         private bool isValidRequest;
@@ -23,7 +21,6 @@ namespace RuleEngine.Logic.RuleActions
         public MembershipSlipManager(AfterPaymentExecutionRequest request, AllProducts products, bool isUpgradeRequest)
         {
             _request = request;
-            _products = products;
             _isUpgradeRequest = isUpgradeRequest;
             _customersCollection = new CustomersCollection();
         }
@@ -52,12 +49,12 @@ namespace RuleEngine.Logic.RuleActions
 
             //For simplicty and avoid any DB transaction considering that status update for that user as active member is solve the purpose
             var customer = _customersCollection.GetCustomer(_request.CustomerId);
-            this.customerDetails.IsActiveMember = true;
+            this.customerDetails.IsActiveMember = customer != null ? true : false; // funny logic 
             this.membershipActivated = true;
             if (_isUpgradeRequest)
             {
                 // Upgrade membership
-                this.customerDetails.MembershipSlot = 2;  // Say membership status is 2
+                this.customerDetails.MembershipSlot = 2;  // Say membership status is 2 Can do this using enum
                 this.membershipUpgraded = true;
             }
 

@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using RuleEngine.Domain.Models;
 using RuleEngine.Domain.RequestResponseDto;
 using RuleEngine.Logic.DbContext;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace RuleEngine.Logic.RuleActions
 {

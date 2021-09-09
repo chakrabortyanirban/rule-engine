@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using RuleEngine.Domain.Models;
+﻿using Newtonsoft.Json;
 
 namespace RuleEngine.Domain.RequestResponseDto
 {
@@ -12,8 +9,5 @@ namespace RuleEngine.Domain.RequestResponseDto
 
         [JsonProperty("customerId")]
         public int CustomerId { get; set; }
-
-        [JsonProperty("linksForNonPhysicalProducts")]
-        public string LinksForNonPhysicalProducts { get; set; } = string.Empty;
     }
 }

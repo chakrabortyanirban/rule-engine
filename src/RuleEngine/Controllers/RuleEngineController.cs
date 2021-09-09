@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using RuleEngine.Domain.Models;
-using RuleEngine.Domain.RequestResponseDto;
-using RuleEngine.Logic.DbContext;
-using System;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using RuleEngine.Domain.Models;
+using RuleEngine.Logic.DbContext;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using RuleEngine.Domain.RequestResponseDto;
 
 namespace RuleEngine.Controllers
 {
