@@ -5,15 +5,15 @@ using RuleEngine.Logic.RuleActions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace RuleEngine.Logic.Rules
+namespace RuleEngine.Logic.RuleDefinations
 {
-    public class Membership : RuleContext, IPackingSlip
+    public class MembershipProduct : RuleContext, IPackingSlip
     {
         private readonly MembershipSlipManager _packingSlipManager;
 
-        public Membership(AfterPaymentExecutionRequest request, IWebHostEnvironment webHostEnvironment)
+        public MembershipProduct(AfterPaymentExecutionRequest request, IWebHostEnvironment webHostEnvironment)
         {
-            _packingSlipManager = new MembershipSlipManager(request, false);
+            _packingSlipManager = new MembershipSlipManager(request, request.ProductName.Contains("upgrade", System.StringComparison.CurrentCultureIgnoreCase));
         }
 
         public string PackingSlipTemplate { get { return "SlipTemplates/Membership.html"; } } // not in use in this scenario
@@ -22,12 +22,12 @@ namespace RuleEngine.Logic.Rules
         {
             var response = new AfterPaymentExecutionResponse
             {
-                SlipHtml = await GeneratePackaingSlip(false)
+                SlipHtml = await GeneratePackaingSlip()
             };
             return response;
         }
 
-        public async Task<List<string>> GeneratePackaingSlip(bool requiredDuplicate)
+        public async Task<List<string>> GeneratePackaingSlip()
         {
             return await _packingSlipManager.Create();
         }

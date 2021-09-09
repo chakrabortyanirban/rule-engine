@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RuleEngine.Domain.Models;
 using RuleEngine.Domain.RequestResponseDto;
-using RuleEngine.Logic;
 using RuleEngine.Logic.DbContext;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -37,20 +32,20 @@ namespace RuleEngine.Controllers
 
             // Find applicable rule 
             var ruleCollection = new RuleCollection();
-            var ruleName = await ruleCollection.GetRule(request.ProductName);
+            var ruleEntry = await ruleCollection.GetRule(request.ProductName);
 
-            if (string.IsNullOrWhiteSpace(ruleName))
+            if (string.IsNullOrWhiteSpace(ruleEntry?.Product))
                 throw new ArgumentException("Invalid product name! Attached rule is missing.");
 
             // Get Rule instance
             var assembly = Assembly.GetAssembly(ruleCollection.GetType());
-            var t = assembly?.GetType(assembly.GetName().Name + ".Rules." + ruleName);
-            var ruleConstructor = t.GetConstructor(new Type[] { typeof(AfterPaymentExecutionRequest), typeof(IWebHostEnvironment) });
+            var ruleType = assembly?.GetType(assembly.GetName().Name + ".RuleDefinations." + ruleEntry.ProductType.ToString());
+            var ruleConstructor = ruleType.GetConstructor(new Type[] { typeof(AfterPaymentExecutionRequest), typeof(IWebHostEnvironment) });
             var ruleObject = ruleConstructor.Invoke(new object[] { request, _environment });
 
             // Get Execution Method 
             MethodInfo method
-                 = t.GetMethod("ExecuteAction");
+                 = ruleType.GetMethod("ExecuteAction");
 
             // Execute action
             var response = await (Task<AfterPaymentExecutionResponse>)method.Invoke(ruleObject, null);

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RuleEngine.Domain
@@ -10,6 +8,6 @@ namespace RuleEngine.Domain
     {
         string PackingSlipTemplate { get; }
 
-        Task<List<string>> GeneratePackaingSlip(bool requiredDuplicate);
+        Task<List<string>> GeneratePackaingSlip();
     }
 }

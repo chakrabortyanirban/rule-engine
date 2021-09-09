@@ -22,13 +22,13 @@ namespace RuleEngine.Logic.RuleActions
         private string slipTemplate;
         private CustomerDetails customerDetails;
 
-        public PhysicalProductPackingSlipManager(AfterPaymentExecutionRequest request, string packingSlipPath, bool duplicateSlipRequired, IWebHostEnvironment environment)
+        public PhysicalProductPackingSlipManager(AfterPaymentExecutionRequest request, string packingSlipPath, IWebHostEnvironment environment)
         {
             _request = request;
             _environment = environment;
             _packingSlipPath = packingSlipPath;
             _customersCollection = new CustomersCollection();
-            _duplicateSlipRequired = duplicateSlipRequired;
+            _duplicateSlipRequired = request.ProductName.Contains("book", StringComparison.InvariantCultureIgnoreCase);
         }
 
         public async Task<List<string>> Create()
