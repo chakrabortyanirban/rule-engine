@@ -19,8 +19,7 @@ namespace RuleEngine.Test.Helpers
             return new AfterPaymentExecutionRequest
             {
                 ProductName = product,
-                CustomerId = customerId,
-                LinksForNonPhysicalProducts = null
+                CustomerId = customerId
             };
         }
     }

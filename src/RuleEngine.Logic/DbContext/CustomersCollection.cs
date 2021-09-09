@@ -13,10 +13,11 @@ namespace RuleEngine.Logic.DbContext
             _customers = GetAllCustomers();
         }
 
-        private List<CustomerDetails> GetAllCustomers()
+        private static List<CustomerDetails> GetAllCustomers()
         {
             var customers = new List<CustomerDetails>();
-            for (int i = 1; i <= 10; i++){
+            for (int i = 1; i <= 10; i++)
+            {
                 customers.Add(new CustomerDetails
                 {
                     CustomerId = i,
@@ -25,7 +26,7 @@ namespace RuleEngine.Logic.DbContext
                     ContactNo = i + "99999",
                     CustomerEmail = i + "@gmail.com",
                     CustomerName = "Customer " + i,
-                    IsActiveMember= false,
+                    IsActiveMember = false,
                     MembershipSlot = 0
                 });
             }
