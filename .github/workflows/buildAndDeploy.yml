@@ -2,6 +2,7 @@ name: Build And Deploy
 env:
   REPO_NAME_PRE_EXT: chakrabortyanirban/ruleengine
   REPO_NAME: ruleengine
+  DOCKER_REG: ${{ secrets.DOCKER_HUB_USERNAME }}
 
 on:
   push:
