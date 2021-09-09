@@ -27,9 +27,8 @@ namespace RuleEngine.Domain.Models
         [JsonProperty("agentCommissionPercentage")]
         public double AgentCommissionPercentage { get; set; }
 
-        [JsonProperty("guideLink")]
-        public string GuideLink { get; set; }
-
+        [JsonProperty("relatedFreeProductId")]
+        public int RelatedFreeProductId { get; set; }
     }
 
     public class AllProducts

@@ -53,8 +53,8 @@ namespace RuleEngine.Test
         }
 
         [Test]
-        [TestCase(3, "GetSlipForBookPurchase", 1, "book")]
-        [TestCase(4, "GetSlipForBookPurchase", 2, "book")]
+        [TestCase(3, "GetSlipForBookPurchase", 1, "The War of the poor")]
+        [TestCase(4, "GetSlipForBookPurchase", 2, "The art of Reading Minds")]
         public async Task GetSlipForBookPurchase(int caseId, string caseName, int customerId, string product)
         {
             var expectedOutput = new ResponseReaderHelper(_testDirectoryPath + "/CaseResponses/" + caseId + "/ExpectedResponse.json").GetMockResponseFromJsonFile();
@@ -62,8 +62,8 @@ namespace RuleEngine.Test
             var response = await _controller.PostPaymentWorkExecutions(reqObj);
             Assert.AreEqual(response?.Value.SlipHtml.Count, 2);
 
-            //var finalOutput = Newtonsoft.Json.JsonConvert.SerializeObject(response.Value, Newtonsoft.Json.Formatting.Indented);
-            //ContentAssert.JsonAreEquivalents(expectedOutput, finalOutput);
+            var finalOutput = Newtonsoft.Json.JsonConvert.SerializeObject(response.Value, Newtonsoft.Json.Formatting.Indented);
+            ContentAssert.JsonAreEquivalents(expectedOutput, finalOutput);
         }
 
         [Test]
@@ -92,6 +92,19 @@ namespace RuleEngine.Test
             ContentAssert.JsonAreEquivalents(expectedOutput, finalOutput);
         }
 
+        [Test]
+        [TestCase(7, "GetSlipForVideoPurchase", 2, "Learning to Ski")]
+        public async Task GetSlipForVideoPurchase(int caseId, string caseName, int customerId, string product)
+        {
+            var expectedOutput = new ResponseReaderHelper(_testDirectoryPath + "/CaseResponses/" + caseId + "/ExpectedResponse.json").GetMockResponseFromJsonFile();
+            var reqObj = GetRequestObject(caseName, customerId, product);
+            var response = await _controller.PostPaymentWorkExecutions(reqObj);
+            Assert.AreEqual(response?.Value.SlipHtml.Count, 1);
+
+            var finalOutput = Newtonsoft.Json.JsonConvert.SerializeObject(response.Value);
+            ContentAssert.JsonAreEquivalents(expectedOutput, finalOutput);
+        }
+
         private AfterPaymentExecutionRequest GetRequestObject(string caseName, int customerId, string product)
         {
             return caseName switch
@@ -101,6 +114,7 @@ namespace RuleEngine.Test
                 "GetSlipForBookPurchase" => RequestBuilder.ValidRequestForProductPurchase(customerId, product),
                 "GetSlipForMembershipPurchase" => RequestBuilder.ValidRequestForProductPurchase(customerId, product),
                 "GetSlipForMembershipUpgradePurchase" => RequestBuilder.ValidRequestForProductPurchase(customerId, product),
+                "GetSlipForVideoPurchase" => RequestBuilder.ValidRequestForProductPurchase(customerId, product),
                 _ => null,
             };
         }

@@ -12,7 +12,7 @@
     },
     {
       "productId": 2,
-      "productName": "The Was of the poor",
+      "productName": "The War of the poor",
       "productType": "PhysicalProduct",
       "productCategory": "book",
       "price": 185,
@@ -48,7 +48,8 @@
       "price": 50,
       "active": true,
       "agentCommissionPercentage": 0,
-      "guideLink": "https://www.youtube.com/watch?v=RMb0Zpvri6k"
+      "guideLink": "https://www.youtube.com/watch?v=RMb0Zpvri6k",
+      "relatedFreeProductId": 7
     },
     {
       "productId": 6,
@@ -56,6 +57,16 @@
       "productType": "VideoProduct",
       "productCategory": "Video",
       "price": 5,
+      "active": true,
+      "agentCommissionPercentage": 0,
+      "guideLink": ""
+    },
+    {
+      "productId": 7,
+      "productName": "First Aid",
+      "productType": "VideoProduct",
+      "productCategory": "Video",
+      "price": 0,
       "active": true,
       "agentCommissionPercentage": 0,
       "guideLink": ""

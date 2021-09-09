@@ -42,6 +42,9 @@
 	  <None Update="CaseResponses\6\ExpectedResponse.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
+	  <None Update="CaseResponses\7\ExpectedResponse.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>

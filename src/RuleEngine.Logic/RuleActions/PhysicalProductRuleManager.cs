@@ -16,13 +16,9 @@ namespace RuleEngine.Logic.RuleActions
         {
             _products = products;
             _request = request;
-            _slipManager = new PhysicalProductPackingSlipManager(request, packingSlipPath, environment);
+            _slipManager = new PhysicalProductPackingSlipManager(request, products, packingSlipPath, environment);
         }
 
-        /// <summary>
-        /// Consider 10% agent commition. Only commission calculated for simplicity
-        /// </summary>
-        /// <returns></returns>
         public async Task<bool> ExecuteCommitionPayment()
         {
             return await Task.Run(() =>

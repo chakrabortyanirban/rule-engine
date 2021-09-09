@@ -1,36 +1,37 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using RuleEngine.Domain.Models;
-using RuleEngine.Domain.RequestResponseDto;
-using RuleEngine.Logic.DbContext;
+﻿
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
+using RuleEngine.Domain.Models;
+using Microsoft.AspNetCore.Hosting;
+using RuleEngine.Domain.RequestResponseDto;
+using RuleEngine.Logic.DbContext;
+using System.IO;
 
 namespace RuleEngine.Logic.RuleActions
 {
-    internal class PhysicalProductPackingSlipManager
+    public class VideoSlipmanager
     {
-        private readonly AfterPaymentExecutionRequest _request;
-        private readonly bool _duplicateSlipRequired;
-        private readonly string _packingSlipPath;
         private readonly Product _product;
+        private readonly AllProducts _products;
+        private readonly string _packingSlipPath;
         private readonly IWebHostEnvironment _environment;
+        private readonly AfterPaymentExecutionRequest _request;
         private readonly CustomersCollection _customersCollection;
-
 
         private bool isValidRequest;
         private string slipTemplate;
+        private string slipHtml;
         private CustomerDetails customerDetails;
 
-        public PhysicalProductPackingSlipManager(AfterPaymentExecutionRequest request, AllProducts products, string packingSlipPath, IWebHostEnvironment environment)
+        public VideoSlipmanager(AfterPaymentExecutionRequest request, AllProducts products, string packingSlipPath, IWebHostEnvironment environment)
         {
-            _request = request;
+            _products = products;
             _product = products.GetProduct(request.ProductName);
+            _request = request;
             _environment = environment;
-            _packingSlipPath = packingSlipPath;
             _customersCollection = new CustomersCollection();
-            _duplicateSlipRequired = _product.ProductType == ProductTypeEnum.PhysicalProduct;
+            _packingSlipPath = packingSlipPath;
         }
 
         public async Task<List<string>> Create()
@@ -40,17 +41,17 @@ namespace RuleEngine.Logic.RuleActions
                 return ValidateReqquest()
                         .GetCustomerDetails()
                         .CollectTemplate()
-                        .GenerateSlipHtml();
+                        .GenerateSlipHtml()
+                        .CheckForFreeVideoProduct();
             });
         }
-
-        private PhysicalProductPackingSlipManager ValidateReqquest()
+        private VideoSlipmanager ValidateReqquest()
         {
             this.isValidRequest = _request != null && _request.CustomerId > 0 && !string.IsNullOrWhiteSpace(_packingSlipPath);
             return this;
         }
 
-        private PhysicalProductPackingSlipManager CollectTemplate()
+        private VideoSlipmanager CollectTemplate()
         {
             if (!this.isValidRequest)
                 return this;
@@ -59,7 +60,7 @@ namespace RuleEngine.Logic.RuleActions
             return this;
         }
 
-        private PhysicalProductPackingSlipManager GetCustomerDetails()
+        private VideoSlipmanager GetCustomerDetails()
         {
             if (!this.isValidRequest)
                 return this;
@@ -68,7 +69,7 @@ namespace RuleEngine.Logic.RuleActions
             return this;
         }
 
-        private List<string> GenerateSlipHtml()
+        private VideoSlipmanager GenerateSlipHtml()
         {
             if (!this.isValidRequest)
                 return null;
@@ -78,14 +79,29 @@ namespace RuleEngine.Logic.RuleActions
                 this.isValidRequest = false;
                 return null;
             }
-            
-            var slips = new List<string>() {
-                GetSlip(false, _product)
-            };
 
-            if (_duplicateSlipRequired)
-                slips.Add(GetSlip(true, _product));
+            this.slipHtml = GetSlip(false, _product);
 
+            return this;
+        }
+
+        private List<string> CheckForFreeVideoProduct()
+        {
+            if (!this.isValidRequest)
+                return null;
+
+            if (string.IsNullOrWhiteSpace(this.slipHtml) || customerDetails == null)
+            {
+                this.isValidRequest = false;
+                return null;
+            }
+
+            var slips = new List<string>();
+            if (_product.ProductType == ProductTypeEnum.VideoProduct && _product.RelatedFreeProductId > 0)
+                this.slipHtml = this.slipHtml.Replace("{{FREEITEMROW}}", AddFreeItemRow(_products.GetProduct(_product.RelatedFreeProductId)));
+
+            this.slipHtml = this.slipHtml.Replace("{{FREEITEMROW}}", string.Empty);
+            slips.Add(this.slipHtml);
             return slips;
         }
 
@@ -101,6 +117,11 @@ namespace RuleEngine.Logic.RuleActions
             .Replace("{{QUANTITY}}", "1")
             .Replace("{{PRICE}}", product.Price.ToString());
             return slip;
+        }
+
+        private string AddFreeItemRow(Product product)
+        {
+            return $"<tr><td>{product.ProductName}</td><td>{product.ProductId}</td><td>{string.Empty}</td><td>{1}</td><td>Free</td></tr>";
         }
     }
 }
